@@ -1,0 +1,26 @@
+server:
+  port: 8981
+
+spring:
+  application:
+    name: API-CATEGORY
+  cloud:
+    nacos:
+      server-addr: 192.168.170.129:8848
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.170.129:3306/hx?characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: wcy011230
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.athx.com.athx.entity
+logging:
+  level:
+    com.athx.dao: debug

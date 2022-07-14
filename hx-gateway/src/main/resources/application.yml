@@ -1,0 +1,71 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    nacos:
+      server-addr: 192.168.170.129:8848
+    gateway:
+      routes: #用来配置路由规则
+        #admin 路由
+        - id: admin_router
+          uri: lb://API-ADMIN
+          predicates:
+            - Path=/admin/**
+          filters:
+            - StripPrefix=1  #去掉请求前缀filter    int数字  1 去掉一级   2 去掉两级 - id: admin_router
+        - id: admin_router_swagger
+          uri: lb://API-ADMIN
+          predicates:
+            - Path=/swagger/admin/**
+          filters:
+            - StripPrefix=2  #去掉请求前缀filter    int数字  1 去掉一级   2 去掉两级
+        #category 路由
+        - id: category_router
+          uri: lb://API-CATEGORY
+          predicates:
+            - Path=/category/test
+          filters:
+            - StripPrefix=1  #去掉请求前缀filter    int数字  1 去掉一级   2 去掉两级
+        - id: category_router_swagger
+          uri: lb://API-CATEGORY
+          predicates:
+            - Path=/swagger/category/**
+          filters:
+            - StripPrefix=2
+        #users 路由
+        - id: users_router
+          uri: lb://API-USERS
+          predicates:
+            - Path=/users/test
+          filters:
+            - StripPrefix=1
+        # user-swagger
+        - id: users_router_swagger
+          uri: lb://API-USERS
+          predicates:
+            - Path=/user/category/**
+          filters:
+            - StripPrefix=2  #去掉请求前缀filter    int数字  1 去掉一级   2 去掉两级
+
+        #videos 路由
+        - id: videos_router
+          uri: lb://API-VIDEOS
+          predicates:
+            - Path=/videos/test
+          filters:
+            - StripPrefix=1  #去掉请求前缀filter    int数字  1 去掉一级   2 去掉两级
+        # videos-swagger
+        - id: videos_router_swagger
+          uri: lb://API-VIDEOS
+          predicates:
+            - Path=/videos/category/**
+          filters:
+            - StripPrefix=2  #去掉请求前缀filt
+      globalcors: # 跨域配置处理
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
